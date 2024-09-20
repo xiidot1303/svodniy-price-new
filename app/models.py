@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.core.validators import FileExtensionValidator
+from asgiref.sync import sync_to_async
 
 class Language(models.Model):
     user_ip = models.CharField(null=True, blank=False, max_length=32)
@@ -23,7 +24,7 @@ class Drug(models.Model):
         return super(Drug, self).save(*args, **kwargs)
 
     @property
-    def provider(self):
+    async def provider(self):
         name = self.provider_name.replace(' - ', '-')
         filter = Provider.objects.filter(name__contains = name.lower())
         return filter[0] if filter else None

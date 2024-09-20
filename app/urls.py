@@ -27,5 +27,7 @@ urlpatterns = [
 
     # drug
     path('drug-list', drug.DrugListView.as_view()),
+    path('drug-list-by-title', drug.DrugListByTitleView.as_view()),
+    path('provider-by-name', drug.ProviderByName.as_view()),
 
 ]

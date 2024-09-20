@@ -66,7 +66,7 @@ def delete_drugs_which_is_not_in_list(l):
     drugs = Drug.objects.exclude(pk__in=l)
     drugs.delete()
 
-def filter_drugs_by_title(title):
+async def filter_drugs_by_title(title):
     query = Drug.objects.filter(title = title)
     return query
 
@@ -148,7 +148,7 @@ def update_or_create_provider_by_data(values):
     Provider.objects.bulk_create(new_providers)
 
 
-
+@sync_to_async
 def get_provider_by_name_contains(name):
     name = name.replace(' - ', '-')
     filter = Provider.objects.filter(name__contains = name.lower())
