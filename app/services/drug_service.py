@@ -58,8 +58,8 @@ def update_or_create_drug_by_data(values):
     Drug.objects.bulk_create(new_drugs)
 
 
-def get_drug_by_pk(pk):
-    obj = get_object_or_404(Drug, pk=pk)
+async def get_drug_by_pk(pk):
+    obj = await Drug.objects.aget(pk=pk)
     return obj
 
 def delete_drugs_which_is_not_in_list(l):

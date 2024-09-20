@@ -10,7 +10,7 @@ from app.views import (
     main
 )
 from app.api import (
-    drug
+    drug, provider
 )
 
 urlpatterns = [
@@ -28,6 +28,9 @@ urlpatterns = [
     # drug
     path('drug-list', drug.DrugListView.as_view()),
     path('drug-list-by-title', drug.DrugListByTitleView.as_view()),
-    path('provider-by-name', drug.ProviderByName.as_view()),
+    path('drug-by-id', drug.DrugInfoView.as_view()),
+
+    # provider
+    path('provider-by-name', provider.ProviderByName.as_view()),
 
 ]

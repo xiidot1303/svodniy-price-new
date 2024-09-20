@@ -10,7 +10,7 @@ class DrugListSerializer(ModelSerializer):
 class DrugFilterSerializer(Serializer):
     title = serializers.CharField(required=False, allow_blank=True, max_length=255)
 
-class DrugListByTitleSerializer(ModelSerializer):
+class DrugSerializer(ModelSerializer):
     class Meta:
         model = Drug
         fields = '__all__'
