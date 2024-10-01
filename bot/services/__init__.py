@@ -29,6 +29,10 @@ async def get_or_create(user_id):
 async def get_object_by_user_id(user_id):
     obj = await Bot_user.objects.aget(user_id=user_id)
     return obj
+    
+async def get_object_by_id(id):
+    obj = await Bot_user.objects.aget(id=id)
+    return obj
 
 async def get_object_by_update(update: Update):
     obj = await Bot_user.objects.aget(user_id=update.effective_user.id)

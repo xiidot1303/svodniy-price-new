@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from adrf.serializers import Serializer, ModelSerializer
 from app.models import *
+from bot.models import Bot_user
 
 class DrugListSerializer(ModelSerializer):
     class Meta:
@@ -22,3 +23,8 @@ class ProviderSerializer(ModelSerializer):
 
 class ProviderFilterSerializer(Serializer):
     name = serializers.CharField(required=True, allow_blank=False, max_length=255)
+
+class BotUserSerializer(ModelSerializer):
+    class Meta:
+        model = Bot_user
+        fields = '__all__'

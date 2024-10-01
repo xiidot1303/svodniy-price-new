@@ -10,7 +10,7 @@ from app.views import (
     main
 )
 from app.api import (
-    drug, provider
+    drug, provider, order
 )
 
 urlpatterns = [
@@ -32,5 +32,8 @@ urlpatterns = [
 
     # provider
     path('provider-by-name', provider.ProviderByName.as_view()),
+
+    # order
+    path('can-order-for-free', order.CanOrderForFree.as_view()),
 
 ]

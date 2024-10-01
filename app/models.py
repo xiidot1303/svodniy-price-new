@@ -90,3 +90,24 @@ class Usage(models.Model):
     class Meta:
         verbose_name = "Использование поиска"
         verbose_name_plural = "Использование поиска"
+
+class OrderItem(models.Model):
+    title = models.CharField(null=True, blank=True, max_length=255, verbose_name='Торговое название')
+    title_en = models.CharField(null=True, blank=True, max_length=255, verbose_name='Международное название')
+    price = models.CharField(null=True, blank=True, max_length=64, verbose_name='Цена сум')
+    provider_name = models.CharField(null=True, blank=True, max_length=255, verbose_name='Поставщик')
+    count = models.IntegerField(null=True, blank=True)
+
+    @property
+    async def provider(self):
+        name = self.provider_name.replace(' - ', '-')
+        filter = Provider.objects.filter(name__contains = name.lower())
+        return filter[0] if filter else None
+
+class Order(models.Model):
+    bot_user = models.ForeignKey('bot.Bot_user', blank=False, on_delete=models.PROTECT)
+    payment_method = models.CharField(null=True, blank=True, max_length=64)
+    total_amount = models.BigIntegerField(null=True, blank=True)
+    order_items = models.ManyToManyField('app.OrderItem')
+    
+

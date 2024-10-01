@@ -26,3 +26,17 @@ personal_data_by_passport_schema_dict = {
         # },
     ),
 }
+
+can_order_response = {
+    "200": openapi.Response(
+        description='',
+        schema=openapi.Schema(
+            type="object",
+            properties={
+                "response": openapi.Schema(type="boolen")
+            },
+            required=["response"]
+        )
+    )
+}
+

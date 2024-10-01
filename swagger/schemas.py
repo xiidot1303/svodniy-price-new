@@ -7,3 +7,11 @@ drug_id_schema = openapi.Schema(
     },
     required=['id']
 )
+
+user_id_schema = openapi.Schema(
+    type="object",
+    properties={
+        "id": openapi.Schema(type="integer")
+    },
+    required=["id"]
+)
