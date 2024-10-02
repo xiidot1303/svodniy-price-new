@@ -28,3 +28,26 @@ class BotUserSerializer(ModelSerializer):
     class Meta:
         model = Bot_user
         fields = '__all__'
+
+class OrderItemSerializer(ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = ['title', 'title_en', 'provider_name', 'price', 'count']
+
+class OrderSerializer(ModelSerializer):
+    order_items = OrderItemSerializer(many=True)
+    class Meta:
+        model = Order
+        fields = ['bot_user', 'payment_method', 'order_items']
+
+    async def acreate(self, validated_data):
+        items_data = validated_data.pop('order_items')
+
+        # Create the order
+        order = await Order.objects.acreate(**validated_data)
+
+        # Add items to the order
+        for item_data in items_data:
+            item, created = await OrderItem.objects.aget_or_create(order=order, **item_data)
+
+        return order

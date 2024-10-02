@@ -9,7 +9,7 @@ class CanOrderForFree(APIView):
             bot_user = await get_bot_user_by_id(request.data.get('id', None))
         except:
             bot_user = None
-            
+
         if bot_user:
             bot_user_serializer = BotUserSerializer(bot_user)
             bot_user = bot_user_serializer.instance
@@ -23,5 +23,17 @@ class CanOrderForFree(APIView):
         else:
             return Response({"error": "No user found with the given ID"}, status=status.HTTP_404_NOT_FOUND)
 
-
+class CreateOrder(APIView):
+    @swagger_auto_schema(request_body=OrderSerializer, responses={
+        status.HTTP_201_CREATED: "", 
+        status.HTTP_400_BAD_REQUEST: ""
+        })
+    async def post(self, request, *args, **kwargs):
+        order_serializer = OrderSerializer(data=request.data)
+        if await sync_to_async(order_serializer.is_valid)():
+            # create Order by serializer
+            await order_serializer.acreate(order_serializer.validated_data)
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response(order_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

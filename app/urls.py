@@ -35,5 +35,6 @@ urlpatterns = [
 
     # order
     path('can-order-for-free', order.CanOrderForFree.as_view()),
+    path('order-create', order.CreateOrder.as_view()),
 
 ]

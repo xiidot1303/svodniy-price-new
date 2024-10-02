@@ -5,7 +5,7 @@ from adrf.views import APIView
 from swagger.schemas import *
 
 class DrugListView(APIView):
-    @swagger_auto_schema(request_body=DrugFilterSerializer, responses={status.HTTP_200_OK: DrugListSerializer})
+    @swagger_auto_schema(request_body=DrugFilterSerializer, responses={status.HTTP_200_OK: DrugListSerializer(many=True)})
     async def post(self, request, *args, **kwargs):
         # Get the title from the POST request
         filter_serializer = DrugFilterSerializer(data=request.data)
@@ -23,7 +23,7 @@ class DrugListView(APIView):
 
 
 class DrugListByTitleView(APIView):
-    @swagger_auto_schema(request_body=DrugFilterSerializer, responses={status.HTTP_200_OK: DrugSerializer})
+    @swagger_auto_schema(request_body=DrugFilterSerializer, responses={status.HTTP_200_OK: DrugSerializer(many=True)})
     async def post(self, request):
         # Get the title from the POST request data
         title = request.data.get('title', None)

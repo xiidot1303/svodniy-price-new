@@ -51,9 +51,26 @@ class UsageAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
         return redirect('usage_rate')
 
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 0
+    readonly_fields = ['title', 'title_en', 'provider_name', 'price', 'count']
+    verbose_name = 'Продукт'
+    verbose_name_plural = 'Продукты'
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['bot_user', 'payment_method', 'total_amount', 'datetime', 'open_button']
+    inlines = [OrderItemInline]
+
+    def open_button(self, obj):
+        change_url = reverse('admin:app_order_change', args=[obj.id])
+        return format_html('<a class="btn btn-primary" href="{}"><i class="fas fa-eye"></i></a>', change_url)
+    open_button.short_description = 'Действие'
+
 # admin.site.register(Language, LanguageAdmin)
 admin.site.register(Drug, DrugAdmin)
 # admin.site.register(Provider, ProviderAdmin)
 admin.site.register(Info, InfoAdmin)
 admin.site.register(Excel, ExcelAdmin)
 admin.site.register(Usage, UsageAdmin)
+admin.site.register(Order, OrderAdmin)
