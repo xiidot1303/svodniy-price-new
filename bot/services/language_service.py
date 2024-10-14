@@ -1,9 +1,10 @@
 from bot.models import *
+from telegram import Update, CallbackQuery
 from bot.resources.strings import lang_dict
 
-async def get_word(text, update=None, chat_id=None):
+async def get_word(text, update: Update | None=None, chat_id=None):
     if not chat_id:
-        chat_id = update.message.chat.id
+        chat_id = update.effective_chat.id
 
     user = await Bot_user.objects.aget(user_id=chat_id)
     if user.lang == "uz":

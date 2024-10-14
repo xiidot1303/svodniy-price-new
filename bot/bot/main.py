@@ -4,8 +4,57 @@ import logging
 import traceback
 import html
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(update.message.chat_id, 'Hello')
+
+async def start(update: Update, context: CustomContext):
+    if await is_group(update):
+        return 
+
+    if await is_registered(update.message.chat.id):
+        # some functions
+        await main_menu(update, context)
+    else:
+        hello_text = lang_dict['hello']
+        await update.message.reply_text(
+            hello_text,
+            reply_markup=ReplyKeyboardMarkup(
+                keyboard=[["UZ 🇺🇿", "RU 🇷🇺"]], resize_keyboard=True, one_time_keyboard=True
+            ),
+        )
+        return SELECT_LANG
+
+
+async def settings(update: Update, context: CustomContext):
+    await make_button_settings(update, context)
+    return ALL_SETTINGS
+
+def search_drugs(update, context):
+    return
+
+async def about(update: Update, context: CustomContext):
+    info = await get_info()
+    user_lang = (await get_user_by_update(update)).lang
+    if user_lang == 'uz' and info:
+        text = info.about_uz
+    elif user_lang == 'ru' and info:
+        text = info.about_ru
+    else:
+        text = '🧾'
+
+    await update_message_reply_text(update, text)
+    
+
+async def partners(update: Update, context: CustomContext):
+    if info := await get_info():
+        file = info.partners
+        await bot_send_document(update, context, file)
+    else:
+        text = '🤝'
+        await update_message_reply_text(update, text)
+    await bot_send_message(update, context, get_word('our partners', update))
+
+async def site(update: Update, context: CustomContext):
+    text = (await get_info()).site if await get_info() else '🌐'
+    await update_message_reply_text(update, text, disable_web_page_preview=False)
 
 
 logger = logging.getLogger(__name__)

@@ -7,6 +7,7 @@ from telegram.ext import (
     ContextTypes,
     ExtBot,
     TypeHandler,
+    PicklePersistence
 )
 from telegram import Update
 from config import BOT_API_TOKEN, WEBHOOK_URL
@@ -32,7 +33,8 @@ class CustomContext(CallbackContext[ExtBot, dict, dict, dict]):
         return super().from_update(update, application)
 
 context_types = ContextTypes(context=CustomContext)
-application = Application.builder().token(BOT_API_TOKEN).context_types(context_types).build()
+persistence = PicklePersistence(filepath="persistencebot")
+application = Application.builder().token(BOT_API_TOKEN).persistence(persistence).context_types(context_types).build()
 
 # add handlers
 for handler in handlers[::-1]:

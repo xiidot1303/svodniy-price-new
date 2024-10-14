@@ -58,3 +58,4 @@ wcwidth==0.2.13
 xlrd==2.0.1
 zope.event==5.0
 zope.interface==6.3
+watchdog==5.0.3

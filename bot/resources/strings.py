@@ -54,13 +54,51 @@ lang_dict = {
         """Ваше имя успешно изменено!""",
     ],
 
-    "": ["", ""],
+    "not found": ["Mavjud emas", "Не найдено"],
 
-    "": ["", ""],
+    "search drugs": ["Dorilarni qidirish🔎", "Поиск лекарств🔎"],
 
-    "": ["", ""],
+    "select drug": ["👉 Dorini tanlash 👈", "👉 Выбрать лекарство 👈"],
 
-    "": ["", ""],
+    "send drug name text": [
+        "<b>Dorini tanlash 🔖</b> tugmasini bosgan holda qidiruvni oching va ma'lumot olmoqchi bo'lgan preparat nomini yozib, ustiga bosing. 🕵️‍♀️💊",
+        "<b>Выберите лекарство</b>, нажав на кнопку <i>Выбрать лекарство 🔖</i>, которая " +
+            "выполняет поиск по лекарствам, а затем кликните, чтобы получить информацию о выбранном препарате. 🕵️‍♀️💊"
+        ],
+
+    "provider": ["Ta'minotchi", "Поставщик"],
+
+    "manufacturer": ["Ishlab chiqaruvchi", "Производитель"],
+
+    "address": ["Manzil", "Адрес"],
+
+    "price": ["Narx", "Цена"],
+
+    "term": ["Muddat", "Срок"],
+
+    "phone": ["Telefon", "Телефон"],
+
+    "max price": ["↗️ Maksimal narx", "↗️ Максимальная цена"],
+
+    "min price": ["↘️ Minimal narx", "↘️ Минимальная цена"],
+
+    "sum": ["so'm", "сум"],
+
+    "about us": ["Biz haqimizda🧾", "О нас🧾"],
+
+    "our partners": ["Hamkorlarimiz🤝", "Наши партнеры🤝"],
+
+    "our site": ["Saytimiz🌐", "Наш сайт🌐"],
+
+    "date published prices": ["Price yuklangan sana", "Дата загрузки прайса"],
+
+    "mnn": ["Xalqaro nom", "Мнн"],
+
+    "country": ["Davlat", "Страна"],
+
+    "atc": ["ATC klassifikatsiya", "ATC классификация"],
+
+    "video": ["Video instruksiya 📲", "Видеоинструкция 📲"],
 
     "": ["", ""],
 

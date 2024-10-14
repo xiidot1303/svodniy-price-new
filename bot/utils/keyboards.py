@@ -29,10 +29,10 @@ async def select_lang_keyboard():
 async def settings_keyboard(update):
 
     buttons = [
-        [get_word("change lang", update)],
-        [get_word("change name", update)],
-        [get_word("change phone number", update)],
-        [get_word("main menu", update)],
+        [await get_word("change lang", update)],
+        [await get_word("change name", update)],
+        [await get_word("change phone number", update)],
+        [await get_word("main menu", update)],
     ]
 
     return buttons

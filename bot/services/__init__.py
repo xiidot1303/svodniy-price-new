@@ -9,7 +9,7 @@ def is_registered(id):
     else:
         return False
 
-async def get_user_by_update(update: Update):
+async def get_user_by_update(update: Update) -> Bot_user:
     user = await Bot_user.objects.aget(user_id=update.effective_user.id)
     return user
 

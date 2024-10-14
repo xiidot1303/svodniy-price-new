@@ -1,4 +1,4 @@
-from telegram import Update
+from telegram import Update, CallbackQuery
 from telegram.ext import ContextTypes, CallbackContext, ExtBot, Application
 from dataclasses import dataclass
 from asgiref.sync import sync_to_async
@@ -9,6 +9,11 @@ from bot.resources.strings import lang_dict
 from bot.services import *
 from bot.services.language_service import *
 from bot.resources.conversationList import *
+
+from app.services.drug_service import *
+from app.services.info_service import *
+from app.services.usage_service import *
+
 from config import WEBAPP_URL
 
 @dataclass
@@ -39,12 +44,10 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     update = update.callback_query if update.callback_query else update
 
     bot = context.bot
-    buy_car_button = KeyboardButton(
-        text=await get_word('order car', update),
-        web_app=WebAppInfo(url=WEBAPP_URL)
-    )
     keyboards = [
-        [buy_car_button],
+        # [get_word('search drugs', update)],
+        [await get_word('about us', update), await get_word('our partners', update)],
+        [await get_word('our site', update), await get_word('settings', update)],
     ]
 
     reply_markup = ReplyKeyboardMarkup(keyboard=keyboards, resize_keyboard=True)
@@ -55,3 +58,10 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     await check_username(update)
+
+async def make_button_settings(update: Update, context: CustomContext):
+    await bot.send_message(
+        update.effective_chat.id,
+        await get_word("settings desc", update),
+        reply_markup=ReplyKeyboardMarkup(keyboard=await settings_keyboard(update), resize_keyboard=True),
+    )
