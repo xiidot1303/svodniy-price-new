@@ -19,4 +19,4 @@ app/static/assets/*
 !bot/utils/__init__.py
 !bot/bot/__init__.py
 !swagger/__init__.py
-enter_server.py
+enter_server.sh
