@@ -6,5 +6,8 @@ class Command(BaseCommand):
     help = 'Command that update uploaded excels'
 
     def handle(self, *args, **options):
-        update_excel()
-        
+        try:
+            update_excel()
+            print("Success")
+        except Exception as ex:
+            print(ex)
