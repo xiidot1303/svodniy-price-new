@@ -1,61 +1,33 @@
 from app.services import *
 from app.models import Drug, Provider
 from django.db.models import Case, When, Value, IntegerField
+from django.db import transaction
 
 def update_or_create_drug_by_data(values):
-    # filter drugs already same with database and excel
-    # Create a Q object for each dict in values
-    # queries = [Q(**item) for item in values]
-    
-    # # Combine the Q objects using OR
-    # q_object = queries.pop()
-    # for query in queries:
-    #     q_object |= query
-    # existing_drugs = Drug.objects.filter(q_object).values_list(
-    #                 'title', 'title_en', 'term', 'price', 
-    #                 'provider_name', 'manufacturer', 'country'
-    #             )
-    # existing_drugs = Drug.objects.filter(
-    #         title__in=[v['title'] for v in values], 
-    #         title_en__in=[v['title_en'] for v in values], 
-    #         term__in=[v['term'] for v in values], 
-    #         price__in=[v['price'] for v in values],  
-    #         provider_name__in=[v['provider_name'] for v in values],
-    #         manufacturer__in=[v['manufacturer'] for v in values], 
-    #         country__in=[v['country'] for v in values], 
-    #     ).values_list(
-    #                 'title', 'title_en', 'term', 'price', 
-    #                 'provider_name', 'manufacturer', 'country'
-    #             )
+    with transaction.atomic():
+        new_drugs = [
+            Drug(
+                title=value['title'], 
+                title_en=value['title_en'], 
+                term=value['term'], 
+                price=value['price'], 
+                provider_name=value['provider_name'], 
+                manufacturer=value['manufacturer'], 
+                country=value['country'], 
+                atc=value['atc'],
+                ) 
+                for value in values 
+                # if tuple(value.values()) not in existing_drugs_set
+            ]
 
-    # filter drugs which is not used in excel
-    # deleting_drugs = Drug.objects.exclude(
-    #         pk__in = existing_drugs.values_list('pk', flat=True)
-    #     )
+        # Delete unused drugs
+        # deleting_drugs.delete()
+        Drug.objects.all().delete()
 
-    # create models that are not available database
-    # existing_drugs_set = set(existing_drugs)
-    new_drugs = [
-        Drug(
-            title=value['title'], 
-            title_en=value['title_en'], 
-            term=value['term'], 
-            price=value['price'], 
-            provider_name=value['provider_name'], 
-            manufacturer=value['manufacturer'], 
-            country=value['country'], 
-            atc=value['atc'],
-            ) 
-            for value in values 
-            # if tuple(value.values()) not in existing_drugs_set
-        ]
-    
-    # Delete unused drugs
-    # deleting_drugs.delete()
-    Drug.objects.all().delete()
-
-    # Create drugs by data
-    Drug.objects.bulk_create(new_drugs)
+        # Create drugs by data
+        for i in range(0, len(new_drugs), 2000):
+            batch = new_drugs[i:i+2000]
+            Drug.objects.bulk_create(batch)
 
 
 async def get_drug_by_pk(pk):
