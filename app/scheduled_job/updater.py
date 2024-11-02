@@ -8,7 +8,7 @@ class jobs:
     scheduler.add_jobstore(DjangoJobStore(), 'djangojobstore')
     register_events(scheduler)
     scheduler.add_job(
-        async_to_sync(uploading.update_excel), 
+        uploading.update_excel, 
         'interval', 
         minutes=10
         )

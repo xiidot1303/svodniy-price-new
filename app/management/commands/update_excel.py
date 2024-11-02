@@ -6,6 +6,5 @@ class Command(BaseCommand):
     help = 'Command that update uploaded excels'
 
     def handle(self, *args, **options):
-        asyncio.run(
-            update_excel()
-        )
+        update_excel()
+        
