@@ -11,7 +11,7 @@ class ItemPagination(PageNumberPagination):
 
 class DrugListView(APIView):
     pagination_class = ItemPagination
-    @swagger_auto_schema(request_body=DrugFilterSerializer, responses={status.HTTP_200_OK: DrugListSerializer(many=True)})
+    @swagger_auto_schema(request_body=DrugFilterSerializer, responses=drug_list_response)
     async def post(self, request, *args, **kwargs):
         # Get the title from the POST request
         filter_serializer = DrugFilterSerializer(data=request.data)

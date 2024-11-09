@@ -40,3 +40,29 @@ can_order_response = {
     )
 }
 
+drug_list_response = {
+    "200": openapi.Response(
+        description='',
+        schema=openapi.Schema(
+            type='object',
+            properties={
+                "next": openapi.Schema(type="string"),
+                "results": openapi.Schema(
+                    type="array",
+                    items=[
+                        openapi.Schema(
+                            type='object',
+                            properties={
+                                "title": openapi.Schema(type="string"),
+                                "title_en": openapi.Schema(type="string"),
+                                "term": openapi.Schema(type="string"),
+                                "atc": openapi.Schema(type="string"),
+                            }
+                        )
+                    ]
+
+                )
+            }
+        )
+    )
+}
