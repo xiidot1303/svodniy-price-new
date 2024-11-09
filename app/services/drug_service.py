@@ -120,11 +120,10 @@ def update_or_create_provider_by_data(values):
     Provider.objects.bulk_create(new_providers)
 
 
-@sync_to_async
-def get_provider_by_name_contains(name):
+async def get_provider_by_name_contains(name):
     name = name.replace(' - ', '-')
-    filter = Provider.objects.filter(name__contains = name.lower())
-    return filter[0] if filter else None
+    obj = await Provider.objects.filter(name__contains = name.lower()).afirst()
+    return obj
 
 def delete_providers_all():
     for provider in Provider.objects.all():
