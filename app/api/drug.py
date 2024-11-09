@@ -2,9 +2,15 @@ from app.api import *
 from app.utils import *
 from app.services.drug_service import *
 from adrf.views import APIView
+from rest_framework.pagination import PageNumberPagination
 from swagger.schemas import *
 
+class ItemPagination(PageNumberPagination):
+    page_size = 200
+    page_size_query_param = 'page_size'
+
 class DrugListView(APIView):
+    pagination_class = ItemPagination
     @swagger_auto_schema(request_body=DrugFilterSerializer, responses={status.HTTP_200_OK: DrugListSerializer(many=True)})
     async def post(self, request, *args, **kwargs):
         # Get the title from the POST request
@@ -14,10 +20,16 @@ class DrugListView(APIView):
             words, text_en, text_ru, text = await prepare_drug_words(title)
             drugs = await sync_to_async(filter_drugs_by_title_regex)(words, text_en, text_ru, text)
 
-            # Serialize the data
-            serializer = DrugListSerializer(drugs, many=True)
+            paginator = self.pagination_class()
+            paginated_items = await sync_to_async(paginator.paginate_queryset)(drugs, request, view=self)
 
-            return Response(await serializer.adata, status=status.HTTP_200_OK)
+            # Serialize the data
+            serializer = DrugListSerializer(paginated_items, many=True)
+
+            return Response({
+            'next': await sync_to_async(paginator.get_next_link)(),
+            'results': await serializer.adata,
+        })
 
         return Response(filter_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
