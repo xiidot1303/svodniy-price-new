@@ -34,7 +34,16 @@ class OrderItemSerializer(ModelSerializer):
         model = OrderItem
         fields = ['title', 'title_en', 'provider_name', 'price', 'count']
 
+class BotUserSerializer(ModelSerializer):
+    class Meta:
+        model = Bot_user
+        fields = ['user_id']
+
 class OrderSerializer(ModelSerializer):
+    bot_user = serializers.SlugRelatedField(
+        queryset=Bot_user.objects.all(),
+        slug_field='user_id'
+    )
     order_items = OrderItemSerializer(many=True)
     class Meta:
         model = Order
