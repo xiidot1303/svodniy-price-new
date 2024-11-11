@@ -1,6 +1,6 @@
 from app.api import *
 from app.services.order_service import *
-from bot.services import get_object_by_id as get_bot_user_by_id
+from bot.services import get_object_by_user_id as get_bot_user_by_id
 
 class CanOrderForFree(APIView):
     @swagger_auto_schema(request_body=user_id_schema, responses=can_order_response)
