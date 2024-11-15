@@ -28,10 +28,12 @@ urlpatterns = [
     # drug
     path('drug-list', drug.DrugListView.as_view()),
     path('drug-list-by-title', drug.DrugListByTitleView.as_view()),
+    path('drug-list-by-provider', drug.DrugListByProviderView.as_view()),
     path('drug-by-id', drug.DrugInfoView.as_view()),
 
     # provider
     path('provider-by-name', provider.ProviderByName.as_view()),
+    path('provider-list', provider.ProviderList.as_view()),
 
     # order
     path('can-order-for-free', order.CanOrderForFree.as_view()),
