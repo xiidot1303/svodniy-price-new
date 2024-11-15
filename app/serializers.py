@@ -29,7 +29,7 @@ class ProviderSerializer(ModelSerializer):
 
 class ProviderFilterSerializer(Serializer):
     name = serializers.CharField(
-        required=True, allow_blank=False, max_length=255)
+        required=False, allow_blank=True, max_length=255)
 
 
 class BotUserSerializer(ModelSerializer):
