@@ -74,7 +74,7 @@ class DrugListByProviderView(APIView):
             serializer = DrugSerializer(drugs, many=True)
             return Response(await serializer.adata, status=status.HTTP_200_OK)
 
-        return Response({"error": "No drugs found with the given title"}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"error": "No drugs found with the given provider name"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class DrugInfoView(APIView):

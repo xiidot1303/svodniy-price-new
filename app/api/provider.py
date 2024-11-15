@@ -22,7 +22,7 @@ class ProviderList(APIView):
     @swagger_auto_schema(request_body=ProviderFilterSerializer, responses={status.HTTP_200_OK: ProviderSerializer(many=True)})
     async def post(self, request: AsyncRequest):
         name = request.data.get('name', None)
-        filter_serializer = ProviderFilterSerializer(request.data)
+        filter_serializer = ProviderFilterSerializer(data=request.data)
         if filter_serializer.is_valid():
             name = filter_serializer.validated_data.get('name', None)
             providers = Provider.objects.filter(

@@ -47,7 +47,6 @@ async def filter_drugs_by_title(title):
 
 
 async def filter_drugs_by_provider_name(name: str):
-    name = name.replace('-', ' - ')
     query = Drug.objects.filter(provider_name__icontains=name)
     return query
 
