@@ -1,4 +1,4 @@
-from telegram import Update, CallbackQuery
+from telegram import Update, CallbackQuery, MenuButtonWebApp, WebAppInfo
 from telegram.ext import ContextTypes, CallbackContext, ExtBot, Application
 from dataclasses import dataclass
 from asgiref.sync import sync_to_async
@@ -16,11 +16,13 @@ from app.services.usage_service import *
 
 from config import WEBAPP_URL
 
+
 @dataclass
 class WebhookUpdate:
     """Simple dataclass to wrap a custom update type"""
     user_id: int
     payload: str
+
 
 class CustomContext(CallbackContext[ExtBot, dict, dict, dict]):
     @classmethod
@@ -40,6 +42,7 @@ async def is_message_back(update: Update):
     else:
         return False
 
+
 async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     update = update.callback_query if update.callback_query else update
 
@@ -50,14 +53,23 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [await get_word('our site', update), await get_word('settings', update)],
     ]
 
-    reply_markup = ReplyKeyboardMarkup(keyboard=keyboards, resize_keyboard=True)
+    reply_markup = ReplyKeyboardMarkup(
+        keyboard=keyboards, resize_keyboard=True)
     await bot.send_message(
         update.message.chat_id,
         await get_word('main menu', update),
         reply_markup=reply_markup
     )
 
+    # set web app menu button
+    web_app = WebAppInfo(f"{WEBAPP_URL}")
+    menu_button = MenuButtonWebApp(
+        text=await get_word("search drugs", update),
+        web_app=web_app)
+    await context.bot.set_chat_menu_button(context._user_id, menu_button=menu_button)
+
     await check_username(update)
+
 
 async def make_button_settings(update: Update, context: CustomContext):
     await bot.send_message(
