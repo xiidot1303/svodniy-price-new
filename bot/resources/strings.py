@@ -10,7 +10,7 @@ lang_dict = {
         "\U0001F1FA\U0001F1FF Сменить язык \U0001F1F7\U0001F1FA",
     ],
     "select lang": [""" Tilni tanlang """, """Выберите язык бота """],
-    "type name": ["""Ismingizni kiriting """, """Введите ваше имя """],
+    "type name": ["""Korxonangiz nomini kiriting:""", """Введите ваше юридическое название"""],
     "send number": [
         """Telefon raqamingizni yuboring """,
         """Оставьте свой номер телефона """,
