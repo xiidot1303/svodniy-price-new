@@ -11,13 +11,14 @@ class CanOrderForFree(APIView):
             bot_user = None
 
         if bot_user:
-            bot_user_serializer = BotUserSerializer(bot_user)
-            bot_user = bot_user_serializer.instance
-            orders_count = await check_count_of_orders_of_bot_user(bot_user)
-            if orders_count >= 3:
-                r = False
-            else:
-                r = True
+            # bot_user_serializer = BotUserSerializer(bot_user)
+            # bot_user = bot_user_serializer.instance
+            # orders_count = await check_count_of_orders_of_bot_user(bot_user)
+            # if orders_count >= 3:
+            #     r = False
+            # else:
+            #     r = True
+            r = True
             response = {"response": r}
             return Response(response, status=status.HTTP_200_OK)
         else:
