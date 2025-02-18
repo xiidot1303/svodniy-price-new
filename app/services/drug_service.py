@@ -109,7 +109,7 @@ def update_or_create_provider_by_data(values):
         name__in=[v['name'] for v in values],
         phone__in=[v['phone'] for v in values],
         address__in=[v['address'] for v in values],
-        address__in=[v['tg_id'] for v in values],
+        tg_id__in=[v['tg_id'] for v in values],
     ).values_list(
         'name', 'phone', 'address', 'tg_id'
     )
