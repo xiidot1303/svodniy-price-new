@@ -126,7 +126,7 @@ def update_or_create_provider_by_data(values):
             name=value['name'],
             phone=value['phone'],
             address=value['address'],
-            address=value['tg_id']
+            tg_id=value['tg_id']
         )
         for value in values
         if tuple(value.values()) not in existing_providers_set
