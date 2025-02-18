@@ -37,6 +37,7 @@ class Provider(models.Model):
     name = models.CharField(null=True, blank=True, max_length=255, verbose_name='Имя')
     phone = models.CharField(null=True, blank=True, max_length=255, verbose_name='Телефон')
     address = models.CharField(null=True, blank=True, max_length=255, verbose_name='Адрес')
+    tg_id = models.CharField(null=True, blank=True, max_length=16, verbose_name="Telegram ID")
 
     def __str__(self) -> str:
         return self.name
@@ -110,3 +111,4 @@ class Order(models.Model):
     payment_method = models.CharField(null=True, blank=True, max_length=64)
     total_amount = models.BigIntegerField(null=True, blank=True)
     datetime = models.DateTimeField(db_index=True, null=True, auto_now_add=True, blank=True)
+    sent_to_provider = models.BooleanField(default=False)

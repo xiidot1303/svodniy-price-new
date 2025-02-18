@@ -21,7 +21,7 @@ class DrugAdmin(admin.ModelAdmin):
     edit_button.short_description = 'Действие'
 
 class ProviderAdmin(admin.ModelAdmin):
-    list_display = ['name', 'phone', 'address']
+    list_display = ['name', 'phone', 'address', 'tg_id']
 
 class InfoAdmin(admin.ModelAdmin):
     list_display = ['about_ru', 'about_uz', 'site', 'edit_button']

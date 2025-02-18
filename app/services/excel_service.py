@@ -26,7 +26,8 @@ def read_excel_and_update_data(file_url = 'files/prices.xls'):
             {
                 'name': str(sheet2.cell_value(i, 1)).lower(),
                 'phone': sheet2.cell_value(i, 2),
-                'address': sheet2.cell_value(i, 3)
+                'address': sheet2.cell_value(i, 3),
+                'tg_id': sheet2.cell_value(i, 5)
             }
             for i in range(2, sheet2.nrows)
         ]

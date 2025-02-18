@@ -109,8 +109,9 @@ def update_or_create_provider_by_data(values):
         name__in=[v['name'] for v in values],
         phone__in=[v['phone'] for v in values],
         address__in=[v['address'] for v in values],
+        address__in=[v['tg_id'] for v in values],
     ).values_list(
-        'name', 'phone', 'address'
+        'name', 'phone', 'address', 'tg_id'
     )
 
     # filter providers which is not used in excel
@@ -125,6 +126,7 @@ def update_or_create_provider_by_data(values):
             name=value['name'],
             phone=value['phone'],
             address=value['address'],
+            address=value['tg_id']
         )
         for value in values
         if tuple(value.values()) not in existing_providers_set
