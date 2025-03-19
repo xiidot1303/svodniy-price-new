@@ -8,7 +8,9 @@ async def send_order_notifications():
         bot_user: Bot_user = await order.get_bot_user
         provider_items = {}
         async for item in OrderItem.objects.filter(order=order):
-            provider = await Provider.objects.filter(name__contains=item.provider_name.lower()).afirst()
+            provider = await Provider.objects.filter(
+                name__contains=item.provider_name.lower()
+                ).exclude(tg_id=None).afirst()
             if provider:
                 if provider.tg_id not in provider_items:
                     provider_items[provider.tg_id] = []
@@ -22,6 +24,9 @@ async def send_order_notifications():
             )
             for item in items:
                 message += f"<b>{item.title}</b> x {item.count}\n"
-            await application.bot.send_message(chat_id=tg_id, text=message, parse_mode='HTML')
+            try:
+                await application.bot.send_message(chat_id=tg_id, text=message, parse_mode='HTML')
+            except:
+                pass
         order.sent_to_provider = True
         await order.asave()
