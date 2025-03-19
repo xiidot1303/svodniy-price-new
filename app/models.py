@@ -112,3 +112,8 @@ class Order(models.Model):
     total_amount = models.BigIntegerField(null=True, blank=True)
     datetime = models.DateTimeField(db_index=True, null=True, auto_now_add=True, blank=True)
     sent_to_provider = models.BooleanField(default=False)
+
+    @property
+    @sync_to_async
+    def get_bot_user(self):
+        return self.bot_user

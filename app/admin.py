@@ -54,12 +54,12 @@ class UsageAdmin(admin.ModelAdmin):
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
-    readonly_fields = ['title', 'title_en', 'provider_name', 'price', 'count']
+    # readonly_fields = ['title', 'title_en', 'provider_name', 'price', 'count']
     verbose_name = 'Продукт'
     verbose_name_plural = 'Продукты'
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['bot_user', 'payment_method', 'total_amount', 'datetime', 'open_button']
+    list_display = ['bot_user', 'payment_method', 'total_amount', 'datetime', 'sent_to_provider', 'open_button']
     inlines = [OrderItemInline]
 
     def open_button(self, obj):
@@ -69,7 +69,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 # admin.site.register(Language, LanguageAdmin)
 admin.site.register(Drug, DrugAdmin)
-# admin.site.register(Provider, ProviderAdmin)
+admin.site.register(Provider, ProviderAdmin)
 admin.site.register(Info, InfoAdmin)
 admin.site.register(Excel, ExcelAdmin)
 admin.site.register(Usage, UsageAdmin)
