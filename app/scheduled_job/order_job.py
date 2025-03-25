@@ -8,7 +8,7 @@ from bot.models import Bot_user
 
 async def send_order_notifications():
     os.makedirs("files/order", exist_ok=True)
-    async for order in Order.objects.filter():
+    async for order in Order.objects.filter(sent_to_provider=False):
         bot_user: Bot_user = await order.get_bot_user
         provider_items = {}
         async for item in OrderItem.objects.filter(order=order):
