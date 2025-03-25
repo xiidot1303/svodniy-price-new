@@ -41,7 +41,7 @@ class BotUserSerializer(ModelSerializer):
 class OrderItemSerializer(ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ['title', 'title_en', 'provider_name', 'price', 'count']
+        fields = ['title', 'title_en', 'provider_name', 'price', 'manufacturer', 'country', 'count']
 
 
 class BotUserSerializer(ModelSerializer):

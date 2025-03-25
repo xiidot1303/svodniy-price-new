@@ -98,6 +98,8 @@ class OrderItem(models.Model):
     title_en = models.CharField(null=True, blank=True, max_length=255, verbose_name='Международное название')
     price = models.CharField(null=True, blank=True, max_length=64, verbose_name='Цена сум')
     provider_name = models.CharField(null=True, blank=True, max_length=255, verbose_name='Поставщик')
+    manufacturer = models.CharField(null=True, blank=True, max_length=255, verbose_name='Производитель')
+    country = models.CharField(null=True, blank=True, max_length=64, verbose_name='Страна')
     count = models.IntegerField(null=True, blank=True, verbose_name = 'Количество')
 
     @property
