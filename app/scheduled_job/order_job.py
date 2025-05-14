@@ -33,9 +33,9 @@ async def send_order_notifications():
                 data.append([idx, item.title, item.manufacturer, item.country, item.price, item.count])
             
             # Save Excel file
-            # df = pd.DataFrame(data)
-            # file_path = f"files/order/order_{order.id}.xlsx"
-            # df.to_excel(file_path, index=False, header=False)
+            df = pd.DataFrame(data)
+            file_path = f"files/order/order_{order.id}.xlsx"
+            df.to_excel(file_path, index=False, header=False)
 
             # Prepare text message
             message = (
@@ -56,7 +56,7 @@ async def send_order_notifications():
             # Send text message and Excel file
             try:
                 await application.bot.send_message(chat_id=tg_id, text=message)
-                # await application.bot.send_document(chat_id=tg_id, document=open(file_path, 'rb'))
+                await application.bot.send_document(chat_id=tg_id, document=open(file_path, 'rb'))
             except:
                 pass
         order.sent_to_provider = True
