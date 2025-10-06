@@ -57,7 +57,12 @@ async def send_order_notifications():
             try:
                 await application.bot.send_message(chat_id=tg_id, text=message)
                 await application.bot.send_document(chat_id=tg_id, document=open(file_path, 'rb'))
-            except:
-                pass
+            except Exception as ex:
+                print(f"Failed to send order {order.id} to provider {tg_id}: {ex}")
+                await application.bot.send_message(
+                    chat_id=206261493, 
+                    text=f"Не удалось отправить заказ {order.id} поставщику {tg_id}. Пожалуйста, проверьте настройки."
+                    )
+                
         order.sent_to_provider = True
         await order.asave()
