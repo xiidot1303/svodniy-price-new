@@ -61,7 +61,7 @@ async def send_order_notifications():
                 print(f"Failed to send order {order.id} to provider {tg_id}: {ex}")
                 await application.bot.send_message(
                     chat_id=206261493, 
-                    text=f"Не удалось отправить заказ {order.id} поставщику {tg_id}. Пожалуйста, проверьте настройки."
+                    text=f"Не удалось отправить заказ {order.id} поставщику {tg_id}. Пожалуйста, проверьте настройки.\n{ex}"
                     )
                 
         order.sent_to_provider = True
