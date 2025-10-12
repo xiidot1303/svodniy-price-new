@@ -1,3 +1,4 @@
+from bot import *
 from telegram.ext import (
     CommandHandler,
     MessageHandler,
@@ -48,5 +49,6 @@ handlers = [
     partners_handler,
     site_handler,
     settings_handler,
+    TypeHandler(type=NewsletterUpdate, callback=main.newsletter_update)
 
 ]

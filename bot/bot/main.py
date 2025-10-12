@@ -57,6 +57,49 @@ async def site(update: Update, context: CustomContext):
     await update_message_reply_text(update, text, disable_web_page_preview=False)
 
 
+async def newsletter_update(update: NewsletterUpdate, context: CustomContext):
+    bot = context.bot
+    if not (update.photo or update.video or update.document):
+        # send text message
+        message = await bot.send_message(
+            chat_id=update.user_id,
+            text=update.text,
+            reply_markup=update.reply_markup,
+            parse_mode=ParseMode.HTML
+        )
+
+    if update.photo:
+        # send photo
+        message = await bot.send_photo(
+            update.user_id,
+            update.photo,
+            caption=update.text,
+            reply_markup=update.reply_markup,
+            parse_mode=ParseMode.HTML,
+        )
+    if update.video:
+        # send video
+        message = await bot.send_video(
+            update.user_id,
+            update.video,
+            caption=update.text,
+            reply_markup=update.reply_markup,
+            parse_mode=ParseMode.HTML,
+        )
+    if update.document:
+        # send document
+        message = await bot.send_document(
+            update.user_id,
+            update.document,
+            caption=update.text,
+            reply_markup=update.reply_markup,
+            parse_mode=ParseMode.HTML,
+        )
+    if update.pin_message:
+        await bot.pin_chat_message(chat_id=update.user_id, message_id=message.message_id)
+
+
+
 logger = logging.getLogger(__name__)
 
 async def error_handler(update: Update, context: CustomContext):

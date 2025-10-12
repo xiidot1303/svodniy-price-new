@@ -1,3 +1,4 @@
+from bot import *
 from telegram import Update, CallbackQuery, MenuButtonWebApp, WebAppInfo
 from telegram.ext import ContextTypes, CallbackContext, ExtBot, Application
 from dataclasses import dataclass

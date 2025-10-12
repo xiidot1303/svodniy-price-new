@@ -10,5 +10,6 @@ class app(AppConfig):
     #     if run_once is not None:
     #         return
     #     os.environ['CMDLINERUNNER_RUN_ONCE'] = 'True'
+        import app.signals
         from app.scheduled_job.updater import jobs
         jobs.scheduler.start()
