@@ -3,7 +3,6 @@ import json
 import logging
 import traceback
 import html
-from bot import NewsletterUpdate
 
 
 async def start(update: Update, context: CustomContext):
