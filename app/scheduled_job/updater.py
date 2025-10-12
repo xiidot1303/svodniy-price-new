@@ -12,9 +12,9 @@ class jobs:
         'interval', 
         minutes=10
         )
-    scheduler.add_job(
-        async_to_sync(order.send_order_notifications), 
-        'interval', 
-        minutes=2
-        )
+    # scheduler.add_job(
+    #     async_to_sync(order.send_order_notifications), 
+    #     'interval', 
+    #     minutes=2
+    #     )
     
