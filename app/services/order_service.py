@@ -10,13 +10,16 @@ from asgiref.sync import sync_to_async
 from bot.control.updater import application
 from app.models import Order, OrderItem, Provider
 from bot.models import Bot_user
+import asyncio
 
 async def check_count_of_orders_of_bot_user(bot_user: Bot_user):
     count = await Order.objects.filter(bot_user__id = bot_user.id).acount()
     return count
 
 
-async def send_order_newsletter(order: Order):
+async def send_order_newsletter(order_id: int):
+    await asyncio.sleep(2)
+    order = await Order.objects.aget(id=order_id)
     bot_user: Bot_user = await order.get_bot_user
     provider_items = {}
     async for item in OrderItem.objects.filter(order=order):
@@ -75,4 +78,4 @@ async def send_order_newsletter(order: Order):
                 text=f"Не удалось отправить заказ {order.id} поставщику {tg_id}. Пожалуйста, проверьте настройки.\n{ex}"
                 )
             
-    await order.asave()
+    # await order.asave()
