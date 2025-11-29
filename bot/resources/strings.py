@@ -100,7 +100,7 @@ lang_dict = {
 
     "video": ["Video instruksiya 📲", "Видеоинструкция 📲"],
 
-    "": ["", ""],
+    "type tin": ["STIR raqamingizni kiriting", "Введите ваш ИНН"],
 
     "": ["", ""],
 

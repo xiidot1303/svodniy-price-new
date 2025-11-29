@@ -1,4 +1,4 @@
-n = 8
+n = 9
 (
     SELECT_LANG,
     GET_NAME,
@@ -8,4 +8,5 @@ n = 8
     LANG_SETTINGS,
     NAME_SETTINGS,
     PHONE_SETTINGS,
+    GET_TIN,
 ) = range(0, n)
