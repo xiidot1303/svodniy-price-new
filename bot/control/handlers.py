@@ -13,7 +13,7 @@ from bot.resources.strings import lang_dict
 from bot.resources.conversationList import *
 
 from bot.bot import (
-    main, login
+    main, login, orders
 )
 
 exceptions_for_filter_text = (~filters.COMMAND) & (~filters.Text(lang_dict['main menu']))
@@ -38,6 +38,9 @@ login_handler = ConversationHandler(
 
 )
 
+orders_handler = MessageHandler(filters.Text(lang_dict['orders history']), main.orders_list)
+load_more_orders_handler = CallbackQueryHandler(orders.send_orders_list, pattern = "load_more_orders")
+
 about_handler = MessageHandler(filters.Text(lang_dict['about us']), main.about)
 partners_handler = MessageHandler(filters.Text(lang_dict['our partners']), main.partners)
 site_handler = MessageHandler(filters.Text(lang_dict['our site']), main.site)
@@ -49,6 +52,8 @@ handlers = [
     partners_handler,
     site_handler,
     settings_handler,
+    orders_handler,
+    load_more_orders_handler,
     TypeHandler(type=NewsletterUpdate, callback=main.newsletter_update)
 
 ]

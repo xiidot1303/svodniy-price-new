@@ -110,4 +110,4 @@ async def get_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    return await _to_the_select_lang(update, context)
+    return await _to_the_select_lang(update)

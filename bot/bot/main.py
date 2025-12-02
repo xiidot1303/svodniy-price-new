@@ -3,6 +3,7 @@ import json
 import logging
 import traceback
 import html
+from bot.bot.orders import send_orders_list, Order
 
 
 async def start(update: Update, context: CustomContext):
@@ -55,6 +56,17 @@ async def partners(update: Update, context: CustomContext):
 async def site(update: Update, context: CustomContext):
     text = (await get_info()).site if await get_info() else '🌐'
     await update_message_reply_text(update, text, disable_web_page_preview=False)
+
+
+async def orders_list(update: Update, context: CustomContext):
+    order: Order = await Order.objects.filter().afirst()
+    if order:
+        context.user_data['order_id'] = order.id
+        return await send_orders_list(update, context)
+    else:
+        await update.effective_message.reply_text(
+            await get_word("you dont have any orders", update)
+        )
 
 
 async def newsletter_update(update: NewsletterUpdate, context: CustomContext):
