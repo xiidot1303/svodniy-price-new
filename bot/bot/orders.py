@@ -25,7 +25,10 @@ async def send_orders_list(update: Update, context: CustomContext):
     message = f"<b>Заказ №{order.id} | {order.datetime.strftime('%d.%m.%Y')}</b>\n\n"
     for provider_id, items in provider_items.items():
         provider = providers.get(provider_id)
-        t = f"<b>🔹 Поставщик: {provider.name}</b>\n\n"
+        t = (
+            f"<b>🔹 Поставщик: {provider.name}</b>\n"
+            f"📞 {provider.phone}\n\n"
+            )
         for idx, item in enumerate(items, start=1):
             t += (
                 f"{idx}. {item.title}\n"
