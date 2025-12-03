@@ -11,12 +11,10 @@ def get_last_excel():
     obj = Excel.objects.all().last()
     return obj
 
-def read_excel_and_update_data(file_url = 'files/prices.xls'):
+def read_excel_and_update_providers(file_url = 'files/prices.xls'):
     try:
         # open workbook
         book = xlrd.open_workbook(file_url)
-        # set sheet1 that drugs list
-        sheet1 = book.sheet_by_index(0)
         # set sheet2 that providers list
         sheet2 = book.sheet_by_index(1)
 
@@ -33,6 +31,18 @@ def read_excel_and_update_data(file_url = 'files/prices.xls'):
         ]
         # update or create objects
         update_or_create_provider_by_data(provider_values)
+
+        return 1, ""
+    except Exception as ex:
+        return -1, ex
+
+
+def read_excel_and_update_drugs(file_url = 'files/prices.xls'):
+    try:
+        # open workbook
+        book = xlrd.open_workbook(file_url)
+        # set sheet1 that drugs list
+        sheet1 = book.sheet_by_index(0)
 
         ## READ DRUGS PAGE
         # get values of drugs

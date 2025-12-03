@@ -69,6 +69,11 @@ class Excel(models.Model):
         (1, "Успешно")
     ]
     status = models.IntegerField(null=True, blank=False, choices=STATUS_CHOICES, default=0, verbose_name='Статус')
+    TYPE_CHOICES = [
+        (1, "Перечень поставщиков"),
+        (2, "Прайс")
+    ]
+    type = models.IntegerField(null=True, blank=False, choices=TYPE_CHOICES, verbose_name="Тип загрузки")
     error = models.TextField(null=True, blank=False, max_length=10240, default="", verbose_name="Описание ошибки")
 
     def save(self, *args, **kwargs):

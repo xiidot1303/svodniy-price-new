@@ -32,12 +32,13 @@ class InfoAdmin(admin.ModelAdmin):
     edit_button.short_description = 'Действие'
 
 class ExcelAdmin(admin.ModelAdmin):
-    list_display = ['file', 'published', 'status', 'error']
+    list_display = ['file', 'published', 'type', 'status', 'error']
     list_display_links = None
+    list_filter = ['type']
 
     fieldsets = (
         ('', {
-            'fields': ['file'],
+            'fields': ['file', 'type'],
         }),
     )
 
