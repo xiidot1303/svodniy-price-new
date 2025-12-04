@@ -79,6 +79,8 @@ TEMPLATES = [
             ],
             'builtins': [
                 'app.templatetags.utils_tag',
+                'app.templatetags.services_tag',
+
             ],
 
         },

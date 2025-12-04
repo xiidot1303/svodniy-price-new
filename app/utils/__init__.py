@@ -4,12 +4,12 @@ import json
 from transliterate import translit
 from asgiref.sync import async_to_sync, sync_to_async
 
-async def get_user_ip(request):
-    x_forwarded_for = await request.META.get('HTTP_X_FORWARDED_FOR')
+def get_user_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
     else:
-        ip = await request.META.get('REMOTE_ADDR')
+        ip = request.META.get('REMOTE_ADDR')
     return ip
 
 async def datetime_now():

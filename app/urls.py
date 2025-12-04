@@ -7,7 +7,7 @@ from django.contrib.auth.views import (
 )
 
 from app.views import (
-    main, newsletter
+    main, newsletter, usage
 )
 from app.api import (
     drug, provider, order
@@ -41,5 +41,8 @@ urlpatterns = [
 
     # newsletter
     path('order-newsletter', newsletter.OrderNewsletterView.as_view()),
+
+    path('usage-rate', usage.usage_rate, name='usage_rate'),
+
 
 ]

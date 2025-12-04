@@ -10,7 +10,6 @@ files
 staticfiles
 persistencebot
 app/static/assets/*
-!app/static/assets/my
 !app/views/__init__.py
 !app/api/__init__.py
 !app/utils/__init__.py

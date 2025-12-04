@@ -1,0 +1,329 @@
+{% extends 'layout/basic.html' %}
+
+{% block main %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 mb-4 mt-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+
+                  <a class="btn btn-outline-danger" href="/admin"><i class="fas fa-arrow-left"></i> Админ панель</a>
+
+                <form action="" method="get">
+                  <div class="form-group mb-0 vanila-daterangepicker d-flex flex-row">
+                    <div class="date-icon-set">
+                       <input type="text" name="from" class="form-control" placeholder="От" value="{{ from_date }}">
+                       <span class="search-link">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                       </span>
+                    </div>                  
+                       <span class="flex-grow-0">
+                       <span class="btn">До</span>
+                    </span>
+                    <div class="date-icon-set">
+                       <input type="text" name="to" class="form-control" placeholder="До" value="{{ to_date }}">
+                       <span class="search-link">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                       </span>
+                    </div>   
+                    <div class="date-icon-set">
+                       <button type="submit" class="btn btn-primary ml-2" style="padding: 6px 6px;">Фильтр</button>
+                    </div>               
+                  </div>
+                </form>
+            </div>
+         </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                   <h4 class="font-weight-bold mb-3">Количество поиска</h4>
+                   <div id="chart-usage-of-drug" class="custom-chart"></div>
+                   <div class="d-flex justify-content-around align-items-center">
+
+                       <div>
+                             <svg width="24" height="24" viewBox="0 0 24 24" fill="primary" xmlns="http://www.w3.org/2000/svg">
+                             <rect x="3" y="3" width="18" height="18" rx="2" fill="#04237D" />
+                             </svg>
+                             
+                             <span>Узбекский</span>
+                       </div>
+                      <div>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#e60000" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="3" width="18" height="18" rx="2" fill="#e60000" />
+                            </svg>
+                            
+                            <span>Русский</span>
+                      </div>
+                   </div>
+
+                </div>
+             </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="font-weight-bold mb-3">Пользователи, выполнявшие поиск</h4>
+                    <div id="chart-usage-of-user" class="custom-chart"></div>
+                    <div class="d-flex justify-content-around align-items-center">
+ 
+                        <div>
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="ffbb33" xmlns="http://www.w3.org/2000/svg">
+                              <rect x="3" y="3" width="18" height="18" rx="2" fill="#ffbb33" />
+                              </svg>
+                              
+                              <span>Узбекский</span>
+                        </div>
+                       <div>
+                             <svg width="24" height="24" viewBox="0 0 24 24" fill="#8080ff" xmlns="http://www.w3.org/2000/svg">
+                             <rect x="3" y="3" width="18" height="18" rx="2" fill="#8080ff" />
+                             </svg>
+                             
+                             <span>Русский</span>
+                       </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-pills mt-5 nav-fill" id="pills-tab-1" role="tablist">
+                <li class="nav-item">
+                   <a class="nav-link active" id="pills-drug-tab-fill" data-toggle="pill" href="#pills-drug-fill" role="tab" aria-controls="pills-drug" aria-selected="true">Использование лекарств</a>
+                </li>
+                <li class="nav-item">
+                   <a class="nav-link" id="pills-user-tab-fill" data-toggle="pill" href="#pills-user-fill" role="tab" aria-controls="pills-user" aria-selected="false">Использование пользователей</a>
+                </li>
+             </ul>
+            <div class="card mt-1">
+                <div class="card-header d-flex justify-content-between">
+                </div>
+                <div class="card-body tab-content" id="pills-tabContent-1">
+                    <div class="table-responsive tab-pane fade show active"
+                        id="pills-drug-fill" aria-labelledby="pills-drug-tab-fill" role="tabpanel">
+                        <table id="datatable" class="table data-table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>Лекарства</th>
+                                    <th>Обыскано, раз</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for dict in drugs_count_list %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ dict.drug_title }}</td>
+                                    <td>{{ dict.count }}</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive tab-pane fade show"
+                        id="pills-user-fill" aria-labelledby="pills-user-tab-fill" role="tabpanel">
+                        <table id="datatable" class="table data-table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>Имя</th>
+                                    <th>Username</th>
+                                    <th>Искали, раз</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for dict in bot_users_count_list %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ dict.bot_user__name }}</td>
+                                    <td>{{ dict.bot_user__username }}</td>
+                                    <td>{{ dict.count }}</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+
+if(jQuery("#chart-usage-of-drug").length){
+          var options = {
+            // series: [43,58,50,5],
+            series: [{{ searches_count|index:'uz' }}, {{ searches_count|index:'ru' }}],
+            chart: {
+            height:330,
+            type: 'donut',
+            
+          },
+         
+          labels: ["Узбекский","Русский"],
+          colors: ['#04237D', '#e60000'],
+          plotOptions: {
+            pie: {
+              startAngle: -90,
+              endAngle: 270,
+              donut:{
+                size: '80%',               
+                labels:{
+                  show:true,
+                  total:{
+                    show:true,
+                    color: '#BCC1C8',
+                    fontSize: '18px',
+                    fontFamily: 'DM Sans',
+                    fontWeight: 600,
+                    label: 'Всего'
+                  },
+                  value: {
+                    show: true,
+                    fontSize: '25px',
+                    fontFamily: 'DM Sans',
+                    fontWeight: 700,
+                    color: '#8F9FBC',
+                  },
+                }
+              }
+            }
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          stroke: {
+            lineCap: 'round'
+          }, 
+          grid:{
+            padding: {
+             
+              bottom: 0,
+          }
+          },
+          legend: {
+            position: 'bottom',
+            offsetY: 8,
+            show:true,
+          },
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                height:268
+              }
+            }
+          }],
+          };
+      
+          var chart = new ApexCharts(document.querySelector("#chart-usage-of-drug"), options);
+          chart.render();
+
+          const body = document.querySelector('body')
+          if (body.classList.contains('dark')) {
+            apexChartUpdate(chart, {
+              dark: true
+            })
+          }
+      
+          document.addEventListener('ChangeColorMode', function (e) {
+            apexChartUpdate(chart, e.detail)
+          })
+      }
+</script>
+<script>
+
+if(jQuery("#chart-usage-of-user").length){
+          var options = {
+            // series: [43,58,50,5],
+            series: [{{ searched_users_count|index:'uz' }}, {{ searched_users_count|index:'ru' }}],
+            chart: {
+            height:330,
+            type: 'donut',
+            
+          },
+         
+          labels: ["Узбекский","Русский"],
+          colors: ['#ffbb33', '#8080ff'],
+          plotOptions: {
+            pie: {
+              startAngle: -90,
+              endAngle: 270,
+              donut:{
+                size: '80%',               
+                labels:{
+                  show:true,
+                  total:{
+                    show:true,
+                    color: '#BCC1C8',
+                    fontSize: '18px',
+                    fontFamily: 'DM Sans',
+                    fontWeight: 600,
+                    label: 'Всего'
+                  },
+                  value: {
+                    show: true,
+                    fontSize: '25px',
+                    fontFamily: 'DM Sans',
+                    fontWeight: 700,
+                    color: '#8F9FBC',
+                  },
+                }
+              }
+            }
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          stroke: {
+            lineCap: 'round'
+          }, 
+          grid:{
+            padding: {
+             
+              bottom: 0,
+          }
+          },
+          legend: {
+            position: 'bottom',
+            offsetY: 8,
+            show:true,
+          },
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                height:268
+              }
+            }
+          }],
+          };
+      
+          var chart = new ApexCharts(document.querySelector("#chart-usage-of-user"), options);
+          chart.render();
+
+          const body = document.querySelector('body')
+          if (body.classList.contains('dark')) {
+            apexChartUpdate(chart, {
+              dark: true
+            })
+          }
+      
+          document.addEventListener('ChangeColorMode', function (e) {
+            apexChartUpdate(chart, e.detail)
+          })
+      }
+</script>
+{% endblock %}

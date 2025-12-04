@@ -15,6 +15,7 @@ def get_language_by_ip(ip):
     return Language.objects.get(user_ip=ip)
 
 def get_lang_by_ip(ip):
+    print(ip)
     lang_tuple = Language.objects.get_or_create(user_ip=ip)
     lang_obj = lang_tuple[0]
     if lang_tuple[1]:
