@@ -52,9 +52,12 @@ async def send_order_newsletter(order_id: int):
             f"Заказчик: {bot_user.name}\n"
             f"Username: @{bot_user.username}\n"
             f"Телефон: {bot_user.phone}\n\n"
+            "Общая сумма: <i>{total_price}</i> сум"
             "Детали заказа:\n"
         )
+        total_price = 0
         for idx, item in enumerate(items, start=1):
+            total_price += item.price
             message += (
                 f"{idx}. {item.title}\n"
                 f"   Производитель: {item.manufacturer}\n"
@@ -62,6 +65,7 @@ async def send_order_newsletter(order_id: int):
                 f"   Цена: {item.price}\n"
                 f"   Количество: {item.count}\n\n"
             )
+        message.format(total_price = total_price)
         # Send text message and Excel file
         try:
             await application.update_queue.put(
