@@ -66,3 +66,17 @@ drug_list_response = {
         )
     )
 }
+
+
+provider_username_response = {
+    "200": openapi.Response(
+        description='',
+        schema=openapi.Schema(
+            type="object",
+            properties={
+                "username": openapi.Schema(type="string")
+            },
+            required=["username"]
+        )
+    )
+}

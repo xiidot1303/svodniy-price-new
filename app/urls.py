@@ -33,6 +33,7 @@ urlpatterns = [
 
     # provider
     path('provider-by-name', provider.ProviderByName.as_view()),
+    path('provider-username', provider.ProviderTgUsernameByName.as_view()),
     path('provider-list', provider.ProviderList.as_view()),
 
     # order

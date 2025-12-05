@@ -4,6 +4,7 @@ from app.services.provider_service import *
 from adrf.views import APIView, AsyncRequest
 from app.serializers import *
 from swagger.responses import *
+from bot.services import get_object_by_user_id, Bot_user
 
 
 class ProviderByName(APIView):
@@ -32,3 +33,13 @@ class ProviderList(APIView):
             return Response(await serializer.adata, status=status.HTTP_200_OK)
         return Response(filter_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class ProviderTgUsernameByName(APIView):
+    @swagger_auto_schema(request_body=ProviderFilterSerializer, responses=provider_username_response)
+    async def post(self, request: AsyncRequest):
+        title = request.data.get('name', None)
+        provider: Provider = await get_provider_by_name_contains(title)
+        bot_user: Bot_user = (await get_object_by_user_id(round(float(provider.tg_id)))) if provider else None
+        username = bot_user.username if bot_user else ""
+
+        return Response({"username": username}, status=status.HTTP_200_OK)
