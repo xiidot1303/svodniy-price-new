@@ -37,7 +37,7 @@ class ProviderList(APIView):
 class ProviderTgUsernameByName(APIView):
     @swagger_auto_schema(request_body=ProviderFilterSerializer, responses=provider_username_response)
     async def post(self, request: AsyncRequest):
-        title = request.data.get('name', None)
+        title = str(request.data.get('name', None)).strip()
         provider: Provider = await get_provider_by_name_contains(title)
         bot_user: Bot_user = (await get_object_by_user_id(round(float(provider.tg_id)))) if provider else None
         username = bot_user.username if bot_user else ""
