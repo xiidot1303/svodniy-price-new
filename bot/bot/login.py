@@ -21,7 +21,7 @@ async def _to_the_get_name(update: Update):
 async def _to_the_get_tin(update: Update):
     await update_message_reply_text(
         update=update,
-        text=await get_word("type stir", update),
+        text=await get_word("type tin", update),
         reply_markup=await reply_keyboard_markup([[await get_word("back", update)]]),
     )
     return GET_TIN
