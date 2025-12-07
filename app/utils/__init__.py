@@ -84,3 +84,9 @@ async def prepare_drug_words(text):
         )
     
     return words, text_en, text_ru, text
+
+
+def operators_string_to_object(operators: str):
+    s = operators.replace("“", '"').replace("”", '"').strip()
+    r = json.loads(s)
+    return r

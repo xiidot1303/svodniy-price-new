@@ -1,5 +1,5 @@
 from app.services import *
-from app.models import Drug, Provider
+from app.models import Drug, Provider, Operator
 from django.db.models import Case, When, Value, IntegerField
 from django.db import transaction
 
@@ -110,8 +110,9 @@ def update_or_create_provider_by_data(values):
         phone__in=[v['phone'] for v in values],
         address__in=[v['address'] for v in values],
         tg_id__in=[v['tg_id'] for v in values],
+        operators_text__in=[v['operators'] for v in values],
     ).values_list(
-        'name', 'phone', 'address', 'tg_id'
+        'name', 'phone', 'address', 'tg_id'  # operator is not necassary in values list
     )
 
     # filter providers which is not used in excel
@@ -121,22 +122,43 @@ def update_or_create_provider_by_data(values):
 
     # create models that are not available database
     existing_providers_set = set(existing_providers)
-    new_providers = [
-        Provider(
-            name=value['name'],
-            phone=value['phone'],
-            address=value['address'],
-            tg_id=value['tg_id']
-        )
-        for value in values
-        if tuple(value.values()) not in existing_providers_set
-    ]
+    new_providers = []
+    operators_by_provider = {}
+    for value in values:
+        if tuple(value.values())[:-1] not in existing_providers_set:
+            operators_by_provider[value['name']] = value['operators']
+            new_provider = Provider(
+                name=value['name'],
+                phone=value['phone'],
+                address=value['address'],
+                tg_id=value['tg_id'],
+                operators_text = value['operators']
+            )
+            new_providers.append(new_provider)
 
     # Delete unused providers
     deleting_providers.delete()
 
     # Create providers by data
     Provider.objects.bulk_create(new_providers)
+
+    # create operators
+    new_operators = []
+    for provider_name, operators in operators_by_provider.items():
+        if operators:
+            provider = Provider.objects.filter(name__icontains = str(provider_name).strip()).first()
+            print("provider: ", provider)
+            new_operators.extend(
+                [
+                    Operator(
+                        region = operator["region"],
+                        tg_id = operator['id'],
+                        provider = provider
+                    ) for operator in operators_string_to_object(operators)
+                ]
+            )
+    Operator.objects.bulk_create(new_operators)
+
 
 
 def delete_providers_all():

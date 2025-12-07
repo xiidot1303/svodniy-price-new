@@ -20,8 +20,16 @@ class DrugAdmin(admin.ModelAdmin):
         return format_html('<a class="btn btn-primary" href="{}"><i class="fas fa-edit"></i></a>', change_url)
     edit_button.short_description = 'Действие'
 
+
+
+class OpeatorInline(admin.TabularInline):
+    model = Operator
+    list_display = ['name', 'tg_id']
+
+
 class ProviderAdmin(admin.ModelAdmin):
     list_display = ['name', 'phone', 'address', 'tg_id']
+    inlines = [OpeatorInline]
 
 class InfoAdmin(admin.ModelAdmin):
     list_display = ['about_ru', 'about_uz', 'site', 'edit_button']

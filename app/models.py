@@ -38,6 +38,7 @@ class Provider(models.Model):
     phone = models.CharField(null=True, blank=True, max_length=255, verbose_name='Телефон')
     address = models.CharField(null=True, blank=True, max_length=255, verbose_name='Адрес')
     tg_id = models.CharField(null=True, blank=True, max_length=16, verbose_name="Telegram ID")
+    operators_text = models.CharField(null=True, blank=True, max_length=1024)
 
     def __str__(self) -> str:
         return self.name
@@ -45,6 +46,17 @@ class Provider(models.Model):
     class Meta:
         verbose_name = "Поставщик"
         verbose_name_plural = "Поставщики"
+
+
+class Operator(models.Model):
+    provider = models.ForeignKey(Provider, null=True, blank=True, related_name="operators", on_delete=models.CASCADE, verbose_name="Поставщик")
+    region = models.CharField(null=True, blank=True, max_length=255, verbose_name='Регион')
+    tg_id = models.CharField(null=True, blank=True, max_length=16, verbose_name="Telegram ID")
+
+    class Meta:
+        verbose_name = "Оператор"
+        verbose_name_plural = "Операторы"
+
 
 class Info(models.Model):
     about_uz = models.TextField(null=True, blank=False, max_length=1024, verbose_name='О нас (UZ)')

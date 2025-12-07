@@ -6,6 +6,7 @@ from app.services.drug_service import (
 from app.utils import fix_format_date_in_excel
 from app.models import Excel
 from datetime import datetime
+import traceback
 
 def get_last_excel():
     obj = Excel.objects.all().last()
@@ -25,16 +26,18 @@ def read_excel_and_update_providers(file_url = 'files/prices.xls'):
                 'name': str(sheet2.cell_value(i, 1)).lower(),
                 'phone': sheet2.cell_value(i, 2),
                 'address': sheet2.cell_value(i, 3),
-                'tg_id': sheet2.cell_value(i, 5)
+                'tg_id': sheet2.cell_value(i, 5),
+                'operators': sheet2.cell_value(i, 6)
             }
-            for i in range(2, sheet2.nrows)
+            for i in range(3, sheet2.nrows)
         ]
         # update or create objects
         update_or_create_provider_by_data(provider_values)
 
         return 1, ""
     except Exception as ex:
-        return -1, ex
+        full_tb = traceback.format_exc()
+        return -1, full_tb
 
 
 def read_excel_and_update_drugs(file_url = 'files/prices.xls'):
