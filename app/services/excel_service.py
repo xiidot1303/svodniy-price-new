@@ -16,7 +16,7 @@ def read_excel_and_update_providers(file_url = 'files/prices.xls'):
         # open workbook
         book = xlrd.open_workbook(file_url)
         # set sheet2 that providers list
-        sheet2 = book.sheet_by_index(1)
+        sheet2 = book.sheet_by_index(0)
 
         ## READ PROVIDERS PAGE
         # get values of providers
