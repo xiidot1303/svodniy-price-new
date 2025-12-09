@@ -51,7 +51,6 @@ class OperatorByProviderName(APIView):
         provider_name = str(request.data.get('provider_name', None)).strip()
         filter_serializer = OperatorFilterSerializer(data=request.data)
         if filter_serializer.is_valid():
-            print(provider_name)
             operators = Operator.objects.filter(provider__name__icontains = provider_name)
             serializer = OperatorSerializer(operators, many=True)
             return Response(await serializer.adata, status=status.HTTP_200_OK)
