@@ -147,7 +147,6 @@ def update_or_create_provider_by_data(values):
     for provider_name, operators in operators_by_provider.items():
         if operators:
             provider = Provider.objects.filter(name__icontains = str(provider_name).strip()).first()
-            print("provider: ", provider)
             new_operators.extend(
                 [
                     Operator(

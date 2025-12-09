@@ -72,3 +72,14 @@ class OrderSerializer(ModelSerializer):
             item, created = await OrderItem.objects.aget_or_create(order=order, **item_data)
 
         return order
+
+
+class OperatorSerializer(ModelSerializer):
+    class Meta:
+        model = Operator
+        fields = '__all__'
+
+
+class OperatorFilterSerializer(Serializer):
+    provider_name = serializers.CharField(
+        required=False, allow_blank=True, max_length=255)

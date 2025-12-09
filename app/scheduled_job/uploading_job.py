@@ -5,7 +5,7 @@ from asgiref.sync import async_to_sync, sync_to_async
 def update_excel():
     for excel in Excel.objects.filter(is_uploaded=False):
         excel: Excel
-        excel.is_uploaded = True
+        # excel.is_uploaded = True
         excel.save()
         if excel.type == 1:
             status, error = read_excel_and_update_providers(f'files/{excel.file}')

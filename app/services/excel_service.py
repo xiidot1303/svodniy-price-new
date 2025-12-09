@@ -26,7 +26,7 @@ def read_excel_and_update_providers(file_url = 'files/prices.xls'):
                 'name': str(sheet2.cell_value(i, 1)).lower(),
                 'phone': sheet2.cell_value(i, 2),
                 'address': sheet2.cell_value(i, 3),
-                'tg_id': sheet2.cell_value(i, 5),
+                'tg_id': str(sheet2.cell_value(i, 5)),
                 'operators': sheet2.cell_value(i, 6)
             }
             for i in range(3, sheet2.nrows)

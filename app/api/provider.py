@@ -43,3 +43,18 @@ class ProviderTgUsernameByName(APIView):
         username = bot_user.username if bot_user else ""
 
         return Response({"username": username}, status=status.HTTP_200_OK)
+
+
+class OperatorByProviderName(APIView):
+    @swagger_auto_schema(request_body=OperatorFilterSerializer, responses={status.HTTP_200_OK: OperatorSerializer(many=True)})
+    async def post(self, request: AsyncRequest):
+        provider_name = str(request.data.get('provider_name', None)).strip()
+        filter_serializer = OperatorFilterSerializer(data=request.data)
+        if filter_serializer.is_valid():
+            print(provider_name)
+            operators = Operator.objects.filter(provider__name__icontains = provider_name)
+            serializer = OperatorSerializer(operators, many=True)
+            return Response(await serializer.adata, status=status.HTTP_200_OK)
+        return Response(filter_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        
