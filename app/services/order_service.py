@@ -58,7 +58,7 @@ async def send_order_newsletter(order_id: int):
         )
         total_price = 0
         for idx, item in enumerate(items, start=1):
-            total_price += item.price
+            total_price += int(item.price)
             message += (
                 f"{idx}. {item.title}\n"
                 f"   Производитель: {item.manufacturer}\n"
