@@ -69,19 +69,19 @@ async def send_order_newsletter(order_id: int):
         message.format(total_price = total_price)
         # Send text message and Excel file
         try:
-            tg_id = operator.tg_id if operator else tg_id
+            user_tg_id = operator.tg_id if operator else tg_id
             await application.update_queue.put(
-                NewsletterUpdate(user_id=tg_id, text=message)
+                NewsletterUpdate(user_id=user_tg_id, text=message)
                 )
             await application.update_queue.put(
-                NewsletterUpdate(user_id=tg_id, document=open(file_path, 'rb'))
+                NewsletterUpdate(user_id=user_tg_id, document=open(file_path, 'rb'))
                 )
             order.sent_to_provider = True
         except Exception as ex:
             print(f"Failed to send order {order.id} to provider {tg_id}: {ex}")
             await application.bot.send_message(
                 chat_id=206261493, 
-                text=f"Не удалось отправить заказ {order.id} поставщику {tg_id}. Пожалуйста, проверьте настройки.\n{ex}"
+                text=f"Не удалось отправить заказ {order.id} поставщику {user_tg_id}. Пожалуйста, проверьте настройки.\n{ex}"
                 )
             
     # await order.asave()
