@@ -129,6 +129,7 @@ class Order(models.Model):
     bot_user = models.ForeignKey('bot.Bot_user', blank=False, on_delete=models.PROTECT)
     payment_method = models.CharField(null=True, blank=True, max_length=64)
     total_amount = models.BigIntegerField(null=True, blank=True)
+    operator = models.ForeignKey(Operator, null=True, blank=True, on_delete=models.SET_NULL)
     datetime = models.DateTimeField(db_index=True, null=True, auto_now_add=True, blank=True)
     sent_to_provider = models.BooleanField(default=False)
 

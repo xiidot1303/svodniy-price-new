@@ -59,7 +59,7 @@ class OrderSerializer(ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['bot_user', 'payment_method', 'order_items']
+        fields = ['bot_user', 'payment_method', 'order_items', 'operator']
 
     async def acreate(self, validated_data):
         items_data = validated_data.pop('order_items')
