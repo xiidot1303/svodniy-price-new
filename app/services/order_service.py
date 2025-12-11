@@ -58,7 +58,7 @@ async def send_order_newsletter(order_id: int):
         )
         total_price = 0
         for idx, item in enumerate(items, start=1):
-            total_price += int(item.price)
+            total_price += float(item.price)
             message += (
                 f"{idx}. {item.title}\n"
                 f"   Производитель: {item.manufacturer}\n"
@@ -66,7 +66,7 @@ async def send_order_newsletter(order_id: int):
                 f"   Цена: {item.price}\n"
                 f"   Количество: {item.count}\n\n"
             )
-        message.format(total_price = total_price)
+        message.format(total_price = str(total_price))
         # Send text message and Excel file
         try:
             user_tg_id = operator.tg_id if operator else tg_id
