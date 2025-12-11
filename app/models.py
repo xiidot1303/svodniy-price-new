@@ -137,3 +137,8 @@ class Order(models.Model):
     @sync_to_async
     def get_bot_user(self):
         return self.bot_user
+
+    @property
+    @sync_to_async
+    def get_operator(self) -> Operator:
+        return self.operator

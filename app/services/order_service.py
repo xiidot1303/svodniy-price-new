@@ -20,6 +20,7 @@ async def check_count_of_orders_of_bot_user(bot_user: Bot_user):
 async def send_order_newsletter(order_id: int):
     await asyncio.sleep(2)
     order = await Order.objects.aget(id=order_id)
+    operator = await order.get_operator
     bot_user: Bot_user = await order.get_bot_user
     provider_items = {}
     async for item in OrderItem.objects.filter(order=order):
@@ -68,6 +69,7 @@ async def send_order_newsletter(order_id: int):
         message.format(total_price = total_price)
         # Send text message and Excel file
         try:
+            tg_id = operator.tg_id if operator else tg_id
             await application.update_queue.put(
                 NewsletterUpdate(user_id=tg_id, text=message)
                 )
