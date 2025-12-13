@@ -109,10 +109,10 @@ def update_or_create_provider_by_data(values):
         name__in=[v['name'] for v in values],
         phone__in=[v['phone'] for v in values],
         address__in=[v['address'] for v in values],
-        tg_id__in=[v['tg_id'] for v in values],
-        operators_text__in=[v['operators'] for v in values],
+        tg_id=[v['tg_id'] for v in values],
+        operators_text=[v['operators'] for v in values],
     ).values_list(
-        'name', 'phone', 'address', 'tg_id'  # operator is not necassary in values list
+        'name', 'phone', 'address', 'tg_id', 'operators_text'  # operator is not necassary in values list
     )
 
     # filter providers which is not used in excel
@@ -125,7 +125,7 @@ def update_or_create_provider_by_data(values):
     new_providers = []
     operators_by_provider = {}
     for value in values:
-        if tuple(value.values())[:-1] not in existing_providers_set:
+        if tuple(value.values()) not in existing_providers_set:
             operators_by_provider[value['name']] = value['operators']
             new_provider = Provider(
                 name=value['name'],
@@ -135,7 +135,6 @@ def update_or_create_provider_by_data(values):
                 operators_text = value['operators']
             )
             new_providers.append(new_provider)
-
     # Delete unused providers
     deleting_providers.delete()
 
