@@ -125,6 +125,10 @@ class OrderItem(models.Model):
         filter = Provider.objects.filter(name__contains = name.lower())
         return filter[0] if filter else None
 
+    class Meta:
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"
+
 class Order(models.Model):
     bot_user = models.ForeignKey('bot.Bot_user', blank=False, on_delete=models.PROTECT)
     payment_method = models.CharField(null=True, blank=True, max_length=64)

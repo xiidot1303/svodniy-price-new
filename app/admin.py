@@ -76,6 +76,28 @@ class OrderAdmin(admin.ModelAdmin):
         return format_html('<a class="btn btn-primary" href="{}"><i class="fas fa-eye"></i></a>', change_url)
     open_button.short_description = 'Действие'
 
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ["order", "order_bot_user_name", "title", "price", 
+                    "manufacturer", "country", "count", "provider_name", "order_datetime"]
+    list_filter = ["order", "order__bot_user__name", "title", "provider_name"]
+    verbose_name = "Заказ"
+    verbose_name_plural = "Заказы"
+
+    
+    def order_bot_user_name(self, obj):
+        return obj.order.bot_user.name
+    order_bot_user_name.short_description = "Заказчик"
+    order_bot_user_name.admin_order_field = "order__bot_user__name"
+    
+    def order_datetime(self, obj):
+        return obj.order.datetime
+    order_datetime.short_description = "Дата"
+    order_datetime.admin_order_field = "order__datetime"
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.select_related("order")
+
 # admin.site.register(Language, LanguageAdmin)
 admin.site.register(Drug, DrugAdmin)
 admin.site.register(Provider, ProviderAdmin)
@@ -83,3 +105,4 @@ admin.site.register(Info, InfoAdmin)
 admin.site.register(Excel, ExcelAdmin)
 admin.site.register(Usage, UsageAdmin)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(OrderItem, OrderItemAdmin)
