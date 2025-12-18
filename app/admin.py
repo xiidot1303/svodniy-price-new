@@ -5,6 +5,7 @@ from django import forms
 from django.utils.html import format_html
 from django.urls import reverse
 from django.shortcuts import redirect
+from import_export.admin import ExportMixin
 
 class LanguageAdmin(admin.ModelAdmin):
     list_display = ['user_ip', 'lang']
@@ -76,7 +77,7 @@ class OrderAdmin(admin.ModelAdmin):
         return format_html('<a class="btn btn-primary" href="{}"><i class="fas fa-eye"></i></a>', change_url)
     open_button.short_description = 'Действие'
 
-class OrderItemAdmin(admin.ModelAdmin):
+class OrderItemAdmin(ExportMixin, admin.ModelAdmin):
     list_display = ["order", "order_bot_user_name", "title", "price", 
                     "manufacturer", "country", "count", "provider_name", "order_datetime"]
     list_filter = ["order", "order__bot_user__name", "title", "provider_name"]
