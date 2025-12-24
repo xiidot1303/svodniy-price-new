@@ -28,7 +28,7 @@ class ProviderList(APIView):
             name = filter_serializer.validated_data.get('name', None)
             providers = Provider.objects.filter(
                 **(await filter_provider_by_name(name))
-            )
+            ).order_by('name')
             serializer = ProviderSerializer(providers, many=True)
             return Response(await serializer.adata, status=status.HTTP_200_OK)
         return Response(filter_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
