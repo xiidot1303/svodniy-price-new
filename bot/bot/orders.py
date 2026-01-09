@@ -25,8 +25,15 @@ async def send_orders_list(update: Update, context: CustomContext):
     message = f"<b>Заказ №{order.id} | {order.datetime.strftime('%d.%m.%Y')}</b>\n\n"
     for provider_id, items in provider_items.items():
         provider = providers.get(provider_id)
+        # get provider username by tg_id if bot user is exist
+        if bot_user := await Bot_user.objects.filter(user_id = provider.tg_id).afirst():
+            provider_username = f"""<a href="tg://user?id={bot_user.user_id}">""" \
+                f"""{f"@{bot_user.username}" if bot_user.username else bot_user.firstname}</a>"""
+        else:
+            provider_username = ""
+
         t = (
-            f"<b>🔹 Поставщик: {provider.name}</b>\n"
+            f"<b>🔹 Поставщик: {provider.name}</b>  {provider_username}\n"
             f"📞 {provider.phone}\n\n"
             )
         for idx, item in enumerate(items, start=1):
