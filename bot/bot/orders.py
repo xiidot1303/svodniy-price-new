@@ -41,7 +41,7 @@ async def send_orders_list(update: Update, context: CustomContext):
         message += "➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖\n\n"
     
     # set next order id
-    next_order: Order = await Order.objects.filter(pk__gt = order_id).afirst()
+    next_order: Order = await Order.objects.filter(datetime__lt = order.datetime).order_by('-datetime').afirst()
     if next_order:
         markup = InlineKeyboardMarkup(
             [[

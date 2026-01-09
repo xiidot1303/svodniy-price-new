@@ -59,7 +59,7 @@ async def site(update: Update, context: CustomContext):
 
 
 async def orders_list(update: Update, context: CustomContext):
-    order: Order = await Order.objects.filter().afirst()
+    order: Order = await Order.objects.filter().order_by('-datetime').afirst()
     if order:
         context.user_data['order_id'] = order.id
         return await send_orders_list(update, context)
