@@ -23,7 +23,7 @@ exceptions_for_filter_text = (~filters.COMMAND) & (~filters.Text(lang_dict['main
 login_handler = ConversationHandler(
     entry_points=[
         CommandHandler("start", main.start), 
-        MessageHandler(filters.Text(lang_dict['main menu']), login.start)
+        MessageHandler(filters.Text(lang_dict['main menu']), main.start)
         ],
     states={
         SELECT_LANG: [MessageHandler(
