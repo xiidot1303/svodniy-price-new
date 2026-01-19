@@ -31,6 +31,7 @@ login_handler = ConversationHandler(
             login.select_lang
             )],
         GET_NAME: [MessageHandler(filters.TEXT & exceptions_for_filter_text, login.get_name)],
+        GET_TIN: [MessageHandler(filters.TEXT & exceptions_for_filter_text, login.get_tin)],
         GET_CONTACT: [MessageHandler(filters.ALL & exceptions_for_filter_text, login.get_contact)],
     },
     fallbacks=[
