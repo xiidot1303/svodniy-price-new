@@ -51,7 +51,7 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboards = [
         [await get_word('orders history', update)],
         [await get_word('about us', update), await get_word('our partners', update)],
-        [await get_word('our site', update), await get_word('settings', update)],
+        [await get_word('our site', update)],
     ]
 
     reply_markup = ReplyKeyboardMarkup(
