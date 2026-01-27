@@ -49,9 +49,11 @@ async def send_order_newsletter(order_id: int):
         file_path = f"files/order/order_{order.id}.xlsx"
         df.to_excel(file_path, index=False, header=False)
         # Prepare text message
+        bot_user_username = f"""<a href="tg://user?id={bot_user.user_id}">""" \
+            f"""{f"@{bot_user.username}" if bot_user.username else bot_user.firstname}</a>"""
         message = (
             f"Заказчик: {bot_user.name}\n"
-            f"Username: @{bot_user.username}\n"
+            f"Username: {bot_user_username}\n"
             f"Телефон: {bot_user.phone}\n\n"
             "Общая сумма: <i>{total_price}</i> сум"
             "Детали заказа:\n"
