@@ -24,9 +24,15 @@ async def send_orders_list(update: Update, context: CustomContext):
     # Prepare text message
     message = f"<b>Заказ №{order.id} | {order.datetime.strftime('%d.%m.%Y')}</b>\n\n"
     for provider_id, items in provider_items.items():
-        provider = providers.get(provider_id)
+        provider: Provider = providers.get(provider_id)
+        operator: Operator = await order.get_operator
+        if not operator:
+            bot_user_tg_id = provider.tg_id or '0'
+        else:
+            bot_user_tg_id = operator.tg_id
+        
         # get provider username by tg_id if bot user is exist
-        if bot_user := await Bot_user.objects.filter(user_id = int(float(provider.tg_id))).afirst():
+        if bot_user := await Bot_user.objects.filter(user_id = int(float(bot_user_tg_id))).afirst():
             provider_username = f"""<a href="tg://user?id={bot_user.user_id}">""" \
                 f"""{f"@{bot_user.username}" if bot_user.username else bot_user.firstname}</a>"""
         else:
