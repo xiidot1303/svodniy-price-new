@@ -62,12 +62,18 @@ class DrugListByProviderView(APIView):
     async def post(self, request):
         # Get the title from the POST request data
         name = request.data.get('name', None)
+        product_name = request.data.get('product', None)
 
         if not name:
             return Response({"error": "Provider name is required"}, status=status.HTTP_400_BAD_REQUEST)
 
         # Filter the drugs by title (case-insensitive search)
-        drugs = await filter_drugs_by_provider_name(name)
+        drugs_by_provider = await filter_drugs_by_provider_name(name)
+        if product_name:
+            words, text_en, text_ru, text = await prepare_drug_words(product_name)
+            drugs = await sync_to_async(filter_drugs_by_title_regex)(words, text_en, text_ru, text, queryset=drugs_by_provider)
+        else:
+            drugs = drugs_by_provider
 
         if await drugs.aexists():
             # Serialize the filtered drug data

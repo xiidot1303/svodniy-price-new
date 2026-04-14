@@ -51,11 +51,8 @@ async def filter_drugs_by_provider_name(name: str):
     return query
 
 
-def filter_drugs_by_title_regex(words, text_en, text_ru, text):
-    drugs = Drug.objects.filter(
-        # Q(title__iregex=text_en) | Q(title__iregex=text_ru) | Q(title__icontains=text) |
-        # Q(title_en__iregex=text_en) | Q(title_en__iregex=text_ru) | Q(title_en__icontains=text)
-    )
+def filter_drugs_by_title_regex(words, text_en, text_ru, text, queryset=None):
+    drugs = queryset if queryset else Drug.objects.all()
     for word in words:
         drugs = drugs.filter(
             Q(title__iregex=word[0]) | Q(title__iregex=word[1]) |
