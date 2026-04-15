@@ -86,4 +86,4 @@ async def send_order_newsletter(order_id: int):
                 text=f"Не удалось отправить заказ {order.id} поставщику {user_tg_id}. Пожалуйста, проверьте настройки.\n{ex}"
                 )
             
-    # await order.asave()
+    await order.asave()
