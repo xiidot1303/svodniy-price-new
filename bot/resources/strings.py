@@ -102,6 +102,8 @@ lang_dict = {
 
     "type tin": ["STIR raqamingizni kiriting", "Введите ваш ИНН"],
 
+    "skip": ["O'tkazib yuborish ⏭️", "Пропустить ⏭️"],
+
     "orders history": ["📄 Buyurtmalar tarixi", "📄 История заказов"],
 
     "load more": ["Yana ⏭️", "Еще ⏭️"],

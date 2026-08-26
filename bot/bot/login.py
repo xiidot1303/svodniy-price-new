@@ -22,7 +22,9 @@ async def _to_the_get_tin(update: Update):
     await update_message_reply_text(
         update=update,
         text=await get_word("type tin", update),
-        reply_markup=await reply_keyboard_markup([[await get_word("back", update)]]),
+        reply_markup=await reply_keyboard_markup(
+            [[await get_word("skip", update)], [await get_word("back", update)]]
+        ),
     )
     return GET_TIN
 
@@ -83,7 +85,10 @@ async def get_tin(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return await _to_the_get_name(update)
 
     obj = await get_object_by_user_id(user_id=update.effective_chat.id)
-    obj.tin = update.message.text
+    if update.message.text == await get_word("skip", update):
+        obj.tin = ''
+    else:
+        obj.tin = update.message.text
     await obj.asave()
 
     return await _to_the_get_contact(update)
