@@ -53,7 +53,7 @@ async def send_order_newsletter(order_id: int):
             f"""{f"@{bot_user.username}" if bot_user.username else bot_user.firstname}</a>"""
         message = (
             f"Заказчик: {bot_user.name}\n"
-            f"Username: {bot_user_username}\n"
+            f"Username: <b>{bot_user_username}</b>\n"
             f"Телефон: {bot_user.phone}\n\n"
             "Общая сумма: <i>{total_price}</i> сум"
             "Детали заказа:\n"

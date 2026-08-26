@@ -39,7 +39,7 @@ async def send_orders_list(update: Update, context: CustomContext):
             provider_username = ""
 
         t = (
-            f"<b>🔹 Поставщик: {provider.name}</b>  {provider_username}\n"
+            f"<b>🔹 Поставщик: {provider.name}  {provider_username}</b>\n"
             f"📞 {provider.phone}\n\n"
             )
         for idx, item in enumerate(items, start=1):
