@@ -6,6 +6,8 @@ from django.utils.html import format_html
 from django.urls import reverse
 from django.shortcuts import redirect
 from import_export.admin import ExportMixin
+from import_export.fields import Field
+from import_export.resources import ModelResource
 
 class LanguageAdmin(admin.ModelAdmin):
     list_display = ['user_ip', 'lang']
@@ -77,7 +79,21 @@ class OrderAdmin(admin.ModelAdmin):
         return format_html('<a class="btn btn-primary" href="{}"><i class="fas fa-eye"></i></a>', change_url)
     open_button.short_description = 'Действие'
 
+class OrderItemResource(ModelResource):
+    order_bot_user_name = Field(
+        attribute="order__bot_user__name", column_name="Заказчик")
+    order_datetime = Field(attribute="order__datetime", column_name="Дата")
+
+    class Meta:
+        model = OrderItem
+        fields = ["order", "order_bot_user_name", "title", "price",
+                  "manufacturer", "country", "count", "provider_name",
+                  "order_datetime"]
+        export_order = fields
+
+
 class OrderItemAdmin(ExportMixin, admin.ModelAdmin):
+    resource_classes = [OrderItemResource]
     list_display = ["order", "order_bot_user_name", "title", "price", 
                     "manufacturer", "country", "count", "provider_name", "order_datetime"]
     list_filter = ["order", "order__bot_user__name", "title", "provider_name"]
@@ -97,7 +113,7 @@ class OrderItemAdmin(ExportMixin, admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.select_related("order")
+        return qs.select_related("order", "order__bot_user")
 
 # admin.site.register(Language, LanguageAdmin)
 admin.site.register(Drug, DrugAdmin)
