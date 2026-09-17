@@ -47,7 +47,8 @@ async def filter_drugs_by_title(title):
 
 
 async def filter_drugs_by_provider_name(name: str):
-    query = Drug.objects.filter(provider_name__icontains=name)
+    # ordered so pagination over this queryset returns stable pages
+    query = Drug.objects.filter(provider_name__icontains=name).order_by('title', 'pk')
     return query
 
 

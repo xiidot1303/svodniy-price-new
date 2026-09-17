@@ -58,6 +58,8 @@ class DrugListByTitleView(APIView):
 
 
 class DrugListByProviderView(APIView):
+    pagination_class = ItemPagination
+
     @swagger_auto_schema(request_body=ProviderFilterSerializer, responses={status.HTTP_200_OK: DrugSerializer(many=True)})
     async def post(self, request):
         # Get the title from the POST request data
@@ -75,12 +77,16 @@ class DrugListByProviderView(APIView):
         else:
             drugs = drugs_by_provider
 
-        if await drugs.aexists():
-            # Serialize the filtered drug data
-            serializer = DrugSerializer(drugs, many=True)
-            return Response(await serializer.adata, status=status.HTTP_200_OK)
+        paginator = self.pagination_class()
+        paginated_items = await sync_to_async(paginator.paginate_queryset)(drugs, request, view=self)
 
-        return Response({"error": "No drugs found with the given provider name"}, status=status.HTTP_404_NOT_FOUND)
+        # Serialize the filtered drug data
+        serializer = DrugSerializer(paginated_items, many=True)
+
+        return Response({
+            'next': await sync_to_async(paginator.get_next_link)(),
+            'results': await serializer.adata,
+        }, status=status.HTTP_200_OK)
 
 
 class DrugInfoView(APIView):
