@@ -24,6 +24,14 @@ async def today():
     today = date.today()
     return today
 
+def format_price_from_excel(value):
+    """xlrd returns numeric cells as floats, so an integer price arrives as 159687.0.
+    Strip the trailing .0 while keeping genuine fractional prices intact."""
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))
+    return str(value)
+
+
 def fix_format_date_in_excel(value):
     try:
         n = int(value)

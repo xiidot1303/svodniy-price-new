@@ -3,7 +3,7 @@ from app.services.drug_service import (
     update_or_create_drug_by_data, 
     update_or_create_provider_by_data, 
 )
-from app.utils import fix_format_date_in_excel
+from app.utils import fix_format_date_in_excel, format_price_from_excel
 from app.models import Excel
 from datetime import datetime
 import traceback
@@ -52,7 +52,7 @@ def read_excel_and_update_drugs(file_url = 'files/prices.xls'):
         drug_values = [
             {
                 'title': sheet1.cell_value(i, 0), 'title_en': sheet1.cell_value(i, 1), 
-                'term': fix_format_date_in_excel(sheet1.cell_value(i, 5)), 'price': str(sheet1.cell_value(i, 4)), 
+                'term': fix_format_date_in_excel(sheet1.cell_value(i, 5)), 'price': format_price_from_excel(sheet1.cell_value(i, 4)), 
                 'provider_name': sheet1.cell_value(i, 6), 'manufacturer': sheet1.cell_value(i, 7), 
                 'country': sheet1.cell_value(i, 8), 'atc': sheet1.cell_value(i, 9)
             }
