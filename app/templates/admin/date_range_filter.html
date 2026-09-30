@@ -1,0 +1,22 @@
+{# Rendered inside jazzmin's shared #changelist-search form, so this must not #}
+{# open a <form> of its own - the surrounding "Найти" button submits it.      #}
+{% for choice in choices %}
+    <div class="form-group">
+        <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+                <span class="input-group-text">{{ choice.label_from }}</span>
+            </div>
+            <input type="date" class="form-control"
+                   name="{{ choice.date_from_param }}"
+                   value="{{ choice.date_from }}"
+                   aria-label="{{ choice.label_from }}">
+            <div class="input-group-prepend input-group-append">
+                <span class="input-group-text">{{ choice.label_to }}</span>
+            </div>
+            <input type="date" class="form-control"
+                   name="{{ choice.date_to_param }}"
+                   value="{{ choice.date_to }}"
+                   aria-label="{{ choice.label_to }}">
+        </div>
+    </div>
+{% endfor %}

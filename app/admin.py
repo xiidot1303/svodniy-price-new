@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from import_export.admin import ExportMixin
 from import_export.fields import Field
 from import_export.resources import ModelResource
+from app.filters import OrderDateRangeFilter
 
 class LanguageAdmin(admin.ModelAdmin):
     list_display = ['user_ip', 'lang']
@@ -96,7 +97,7 @@ class OrderItemAdmin(ExportMixin, admin.ModelAdmin):
     resource_classes = [OrderItemResource]
     list_display = ["order", "order_bot_user_name", "title", "price", 
                     "manufacturer", "country", "count", "provider_name", "order_datetime"]
-    list_filter = ["order", "order__bot_user__name", "title", "provider_name"]
+    list_filter = [OrderDateRangeFilter, "order", "order__bot_user__name", "title", "provider_name"]
     verbose_name = "Заказ"
     verbose_name_plural = "Заказы"
 
